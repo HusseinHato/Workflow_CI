@@ -72,12 +72,9 @@ jobs:
                 if [ -z "${{ env.access_token }}" ]; then echo "Access token secret missing"; fi
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
-              env:
+              with:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
                 password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              with:
-                username: ${{ env.username }}
-                password: ${{ env.access_token }}
             - name: Tag Docker Image
               env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
