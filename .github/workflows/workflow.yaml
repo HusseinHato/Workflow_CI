@@ -33,18 +33,24 @@ jobs:
               run: |
                 mlflow run MLProject --env-manager=local
             - name: set up git lfs
+              env:
+                username: ${{ secrets.USERNAME }}
+                email: ${{ secrets.EMAIL }}
               run: |
-                git config --global user.name ${{ secrets.username }}
-                git config --global user.email ${{ secrets.email }}
+                git config --global user.name ${{ env.username }}
+                git config --global user.email ${{ env.email }}
                 git lfs install
                 git lfs track "mlruns/**"
                 git add .gitattributes
                 git commit -m "Track large files in mlruns with Git LFS" || true
                 git push origin master
             - name: save mlruns to repo
+              env:
+                username: ${{ secrets.USERNAME }}
+                email: ${{ secrets.EMAIL }}
               run: |
-                git config --global user.name ${{ secrets.username }}
-                git config --global user.email ${{ secrets.email }}
+                git config --global user.name ${{ env.username }}
+                git config --global user.email ${{ env.email }}
                 git add -f mlruns/
                 git commit -m "Save mlruns from CI run" || true
                 git push origin master
@@ -58,14 +64,21 @@ jobs:
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
-              with:
+              env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
-                password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+                hub_access_token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              with:
+                username: ${{ env.username }}
+                password: ${{ env.hub_access_token }}
             - name: Tag Docker Image
+              env:
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
               run: |
-                docker tag croprecommendation ${{ secrets.DOCKER_HUB_USERNAME }}/croprecommendation:latest
+                docker tag croprecommendation ${{ env.username }}/croprecommendation:latest
             - name: Push Docker Image
+              env:
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
               run: |
-                docker push ${{ secrets.DOCKER_HUB_USERNAME }}/croprecommendation:latest
+                docker push ${{ env.username }}/croprecommendation:latest
 
 
