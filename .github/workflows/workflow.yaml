@@ -63,9 +63,17 @@ jobs:
             - name: build docker model
               run: |
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
+            - name: Debug Docker Hub Secrets
+              run: |
+                echo "DOCKER_HUB_USERNAME is ${DOCKER_HUB_USERNAME:-not set}"
+                echo "DOCKER_HUB_ACCESS_TOKEN is ${DOCKER_HUB_ACCESS_TOKEN:-not set}"
+              env:
+                DOCKER_HUB_USERNAME: ${{ vars.DOCKER_HUB_USERNAME }}
+                DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             - name: Log in to Docker Hub
               uses: docker/login-action@v3
               with:
+                registry: docker.io
                 username: ${{ vars.DOCKER_HUB_USERNAME }}
                 password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             - name: Tag Docker Image
