@@ -37,8 +37,8 @@ jobs:
                 username: ${{ secrets.USERNAME }}
                 email: ${{ secrets.EMAIL }}
               run: |
-                git config --global user.name ${{ env.username }}
-                git config --global user.email ${{ env.email }}
+                git config --global user.name "${{ env.username }}"
+                git config --global user.email "${{ env.email }}"
                 git lfs install
                 git lfs track "mlruns/**"
                 git add .gitattributes
@@ -49,8 +49,8 @@ jobs:
                 username: ${{ secrets.USERNAME }}
                 email: ${{ secrets.EMAIL }}
               run: |
-                git config --global user.name ${{ env.username }}
-                git config --global user.email ${{ env.email }}
+                git config --global user.name "${{ env.username }}"
+                git config --global user.email "${{ env.email }}"
                 git add -f mlruns/
                 git commit -m "Save mlruns from CI run" || true
                 git push origin master
@@ -74,11 +74,11 @@ jobs:
               env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
               run: |
-                docker tag croprecommendation ${{ env.username }}/croprecommendation:latest
+                docker tag croprecommendation "${{ env.username }}/croprecommendation:latest"
             - name: Push Docker Image
               env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
               run: |
-                docker push ${{ env.username }}/croprecommendation:latest
+                docker push "${{ env.username }}/croprecommendation:latest"
 
 
