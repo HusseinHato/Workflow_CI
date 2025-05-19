@@ -63,6 +63,19 @@ jobs:
             - name: build docker model
               run: |
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
+            - name: Dump env for debug
+              run: env
+            - name: Echo secret presence
+              env:
+                username: ${{ secrets.DOCKER_USERNAME }}
+                token: ${{ secrets.DOCKER_TOKEN }}
+              run: |
+                if [ -z "${{ env.username }}" ]; then
+                  echo "❌ DOCKER_USERNAME is empty"
+                  exit 1
+                else
+                  echo "✅ DOCKER_USERNAME is set"
+                fi
             - name: Log in to Docker Hub
               uses: docker/login-action@v3
               with:
