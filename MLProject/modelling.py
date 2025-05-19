@@ -15,6 +15,7 @@ if __name__ == "__main__":
     warnings.filterwarnings("ignore")
     np.random.seed(40)
 
+    # get file path from arguments
     file_path = sys.argv[3] if len(sys.argv) > 3 else os.path.join(os.path.dirname(os.path.abspath(__file__)), "croprecommendation_preprocessing.csv")
     data = pd.read_csv(file_path)
 
