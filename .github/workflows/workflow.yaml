@@ -63,11 +63,21 @@ jobs:
             - name: build docker model
               run: |
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
+            - name: Check secrets
+              env:
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                access_token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              run: |
+                if [ -z "${{ env.username }}" ]; then echo "Username secret missing"; fi
+                if [ -z "${{ env.access_token }}" ]; then echo "Access token secret missing"; fi
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
-              with:
+              env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
                 password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              with:
+                username: ${{ env.username }}
+                password: ${{ env.access_token }}
             - name: Tag Docker Image
               env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
