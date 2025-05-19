@@ -65,15 +65,15 @@ jobs:
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
             - name: Login to DockerHub
               env:
-                DOCKER_USERNAME: husseinhato
+                DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
                 DOCKER_PASSWORD: ${{ secrets.DOCKER_TOKEN }}
               run: |
                 echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
             - name: Tag Docker Image
               run: |
-                docker tag croprecommendation "husseinhato/croprecommendation:latest"
+                docker tag croprecommendation "${{ secrets.DOCKER_USERNAME }}/croprecommendation:latest"
             - name: Push Docker Image
               run: |
-                docker push "husseinhato/croprecommendation:latest"
+                docker push "${{ secrets.DOCKER_USERNAME }}/croprecommendation:latest"
 
 
