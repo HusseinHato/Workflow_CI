@@ -65,12 +65,9 @@ jobs:
                 mlflow models build-docker --model-uri "runs:/$RUN_ID/model" --name "croprecommendation"
             - name: Log in to Docker Hub
               uses: docker/login-action@v2
-              env:
-                username: ${{ secrets.DOCKER_HUB_USERNAME }}
-                hub_access_token: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               with:
-                username: ${{ env.username }}
-                password: ${{ env.hub_access_token }}
+                username: ${{ secrets.DOCKER_HUB_USERNAME }}
+                password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             - name: Tag Docker Image
               env:
                 username: ${{ secrets.DOCKER_HUB_USERNAME }}
