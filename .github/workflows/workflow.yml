@@ -9,7 +9,7 @@ on:
         - master
 
 env:
-    CSV_URL: "MLproject/croprecommendation_preprocessing.csv"
+    CSV_URL: "MLProject/croprecommendation_preprocessing.csv"
     TARGET_VAR: "label"
 
 jobs:
@@ -31,7 +31,7 @@ jobs:
                 pip install mlflow
             - name: Run as a MLflow
               run: |
-                mlflow run ./MLproject --env-manager=local
+                mlflow run MLProject --env-manager=local
             - name: set up git lfs
               run: |
                 git config --global user.name "${{ secrets.USERNAME }}"
