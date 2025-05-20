@@ -9,7 +9,7 @@ on:
         - master
 
 env:
-    CSV_URL: "MLProject/croprecommendation_preprocessing.csv"
+    CSV_URL: "MLproject/croprecommendation_preprocessing.csv"
     TARGET_VAR: "label"
 
 jobs:
