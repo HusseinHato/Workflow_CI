@@ -31,7 +31,7 @@ jobs:
                 pip install mlflow
             - name: Run as a MLflow
               run: |
-                mlflow run MLproject --env-manager=local
+                mlflow run ./MLproject --env-manager=local
             - name: set up git lfs
               run: |
                 git config --global user.name "${{ secrets.USERNAME }}"
