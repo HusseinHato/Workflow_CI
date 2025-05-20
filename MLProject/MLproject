@@ -1,4 +1,4 @@
-nama: workflow-ci
+name: workflow-ci
 
 conda_env: conda.yaml
 
